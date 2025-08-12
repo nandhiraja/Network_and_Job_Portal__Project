@@ -1,6 +1,5 @@
 const express = require("express")
 const User = require("../models/User")
-const simpleBlockchain = require("../utils/simpleBlockchain")
 const router = express.Router()
 
 
@@ -34,18 +33,11 @@ router.post("/signup", async (req, res) => {
 
     await newUser.save()
 
-    // 🔗 BLOCKCHAIN: Register user on blockchain
-    console.log("🔗 Adding user to blockchain...")
-    const blockchainResult = await simpleBlockchain.registerUser(newUser.name, newUser.email)
 
     const response = {
       message: "User created successfully",
       userId: newUser._id,
-      blockchain: {
-        enabled: blockchainResult.success,
-        transactionHash: blockchainResult.transactionHash || null,
-        error: blockchainResult.error || null,
-      },
+     
     }
 
     res.status(201).json(response)

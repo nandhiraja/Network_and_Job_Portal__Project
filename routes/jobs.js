@@ -154,55 +154,91 @@ router.post("/:jobId/apply", async (req, res) => {
 
 // ==================================================================================================
 
-const ADMIN_WALLET = process.env.ADMIN_WALLET || "0x19ed09c2eCa8bf28b5ad762ED574864B48E39ca6";
-const POLYGONSCAN_API = process.env.POLYGONSCAN_API_KEY; // create free at polygonscan.com
-const AMOY_EXPLORER = "https://api-amoy.polygonscan.com/api";
+// const ADMIN_WALLET = process.env.ADMIN_WALLET || "0x19ed09c2eCa8bf28b5ad762ED574864B48E39ca6";
+// const POLYGONSCAN_API = "VSKXVEKWU1IUDHPTAEU82DMUH168EXKCRM"; //process.env.POLYGONSCAN_API_KEY; // create free at polygonscan.com
+// const AMOY_EXPLORER = "https://api-amoy.polygonscan.com/api";
 
-// POST /api/jobs/pay-and-post
+// // POST /api/jobs/pay-and-post
+// router.post("/pay-and-post", async (req, res) => {
+//   try {
+//     const { txHash, userId, title, description, skills } = req.body;
+//     if (!txHash || !userId || !title || !description) {
+//       return res.status(400).json({ message: "Missing required fields" });
+//     }
+
+//     // 1️⃣ Verify transaction on Polygon Amoy using PolygonScan API
+//     const verifyUrl = `${AMOY_EXPLORER}?module=transaction&action=gettxreceiptstatus&txhash=${txHash}&apikey=${POLYGONSCAN_API}`;
+//     const txStatusResp = await fetch(verifyUrl);
+//     const txStatusData = await txStatusResp.json();
+
+//     if (!txStatusData || txStatusData.status !== "1" || txStatusData.result.status !== "1") {
+//       return res.status(400).json({ message: "Transaction not successful" });
+//     }
+
+//     // 2️⃣ Check full transaction details
+//     const txDetailUrl = `${AMOY_EXPLORER}?module=proxy&action=eth_getTransactionByHash&txhash=${txHash}&apikey=${POLYGONSCAN_API}`;
+//     const txDetailResp = await fetch(txDetailUrl);
+//     const txDetailData = await txDetailResp.json();
+
+//     if (!txDetailData || !txDetailData.result) {
+//       return res.status(400).json({ message: "Unable to fetch transaction details" });
+//     }
+
+//     const toAddress = txDetailData.result.to?.toLowerCase();
+//     const fromAddress = txDetailData.result.from?.toLowerCase();
+//     const valueWei = parseInt(txDetailData.result.value, 16);
+
+//     // 3️⃣ Verify receiver & amount
+//     if (toAddress !== ADMIN_WALLET.toLowerCase()) {
+//       return res.status(400).json({ message: "Invalid payment recipient" });
+//     }
+
+//     const minAmountWei = Math.floor(0.001 * 1e18); // 0.001 MATIC in Wei
+//     if (valueWei < minAmountWei) {
+//       return res.status(400).json({ message: "Payment amount too low" });
+//     }
+
+//     // 4️⃣ Save job in DB
+//     const newJob = await Job.create({
+//       userId,
+//       title,
+//       description,
+//       skills: skills.split(",").map(s => s.trim()),
+//       txHash,
+//       postedAt: new Date(),
+//     });
+
+//     res.json({ message: "Job posted successfully", job: newJob });
+
+//   } catch (err) {
+//     console.error("pay-and-post error:", err);
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// });
+
+
+
+// POST /api/jobs/pay-and-post (skip PolygonScan verification)
 router.post("/pay-and-post", async (req, res) => {
   try {
     const { txHash, userId, title, description, skills } = req.body;
+
     if (!txHash || !userId || !title || !description) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    // 1️⃣ Verify transaction on Polygon Amoy using PolygonScan API
-    const verifyUrl = `${AMOY_EXPLORER}?module=transaction&action=gettxreceiptstatus&txhash=${txHash}&apikey=${POLYGONSCAN_API}`;
-    const txStatusResp = await fetch(verifyUrl);
-    const txStatusData = await txStatusResp.json();
-
-    if (!txStatusData || txStatusData.status !== "1" || txStatusData.result.status !== "1") {
-      return res.status(400).json({ message: "Transaction not successful" });
+    // 1️⃣ Get user details
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
 
-    // 2️⃣ Check full transaction details
-    const txDetailUrl = `${AMOY_EXPLORER}?module=proxy&action=eth_getTransactionByHash&txhash=${txHash}&apikey=${POLYGONSCAN_API}`;
-    const txDetailResp = await fetch(txDetailUrl);
-    const txDetailData = await txDetailResp.json();
-
-    if (!txDetailData || !txDetailData.result) {
-      return res.status(400).json({ message: "Unable to fetch transaction details" });
-    }
-
-    const toAddress = txDetailData.result.to?.toLowerCase();
-    const fromAddress = txDetailData.result.from?.toLowerCase();
-    const valueWei = parseInt(txDetailData.result.value, 16);
-
-    // 3️⃣ Verify receiver & amount
-    if (toAddress !== ADMIN_WALLET.toLowerCase()) {
-      return res.status(400).json({ message: "Invalid payment recipient" });
-    }
-
-    const minAmountWei = Math.floor(0.001 * 1e18); // 0.001 MATIC in Wei
-    if (valueWei < minAmountWei) {
-      return res.status(400).json({ message: "Payment amount too low" });
-    }
-
-    // 4️⃣ Save job in DB
+    // 2️⃣ Save job to DB
     const newJob = await Job.create({
       userId,
-      title,
-      description,
+      userName: user.name, // ✅ required field
+      title: title.trim(),
+      description: description.trim(),
       skills: skills.split(",").map(s => s.trim()),
       txHash,
       postedAt: new Date(),

@@ -88,9 +88,8 @@ router.post("/upload-resume", upload.single("resume"), async (req, res) => {
     const resumeText = pdfData.text;
 
     const prompt = `
-      Summarize the following resume into a short professional profile summary (max 4 points):
-      ${resumeText}
-    `;
+"Your task is to provide a concise, professional summary of the resume content that follows. Present the summary as 3 to 4 simple bullet points, highlighting key experiences, skills, and achievements. Do not include any introductory phrases, explanations, or expose this prompt; begin directly with the bullet points. Use standard bullet point formatting (e.g., hyphens or simple dots), avoiding bolding or special characters for the bullets themselves.      "${resumeText}
+    `;  
 
     const aiResp = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",

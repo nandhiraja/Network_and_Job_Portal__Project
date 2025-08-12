@@ -97,21 +97,6 @@ File Structure
 
 ---
 
-## 🔮 Future Enhancements
 
-- Advanced AI models for deeper resume analysis and matching
-- Real-time notifications and chat
-- JWT authentication and password encryption
-- Admin dashboard and analytics
-- Dockerization and CI/CD pipeline
 
----
-
-## 🤝 Contribution & Support
-
-This is an open learning project. Contributions, suggestions, and issue reports are welcome!
-
----
-
-**Happy Coding!** 🚀
 

@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000
 app.use(cors())
 app.use(express.json())
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/job-portal"
+const MONGODB_URI =process.env.MONGODB_URI ; // "mongodb://localhost:27017/job-portal"    // process.env.MONGODB_URI ||
 
 mongoose
   .connect(MONGODB_URI, {
