@@ -11,7 +11,7 @@ router.post("/signup", async (req, res) => {
   try {
     const { name, email, password, role, skills } = req.body
 
-    // Basic validation
+ 
     if (!name || !email || !password || !role) {
       return res.status(400).json({ message: "All fields are required" })
     }
@@ -22,11 +22,11 @@ router.post("/signup", async (req, res) => {
       return res.status(400).json({ message: "User already exists" })
     }
 
-    // Create new user in MongoDB
+    
     const newUser = new User({
       name: name.trim(),
       email: email.trim().toLowerCase(),
-      password, // Plain text for now
+      password, 
       role: role.trim(),
       skills: Array.isArray(skills) ? skills : skills ? skills.split(",").map((s) => s.trim()) : [],
     })
@@ -47,23 +47,24 @@ router.post("/signup", async (req, res) => {
   }
 })
 
-// Login route (unchanged)
+// ========================== LOGIN ROUTE =========================
+
+
+
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body
 
-    // Basic validation
     if (!email || !password) {
       return res.status(400).json({ message: "Email and password are required" })
     }
 
-    // Find user
+   
     const user = await User.findOne({ email: email.trim().toLowerCase() })
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" })
     }
 
-    // Check password (plain text comparison)
     if (user.password !== password) {
       return res.status(400).json({ message: "Invalid credentials" })
     }

@@ -61,7 +61,7 @@ export default function JobPostForm({ user, onPosted }) {
     if (!title.trim() || !description.trim()) return alert("Title and description required");
     setLoading(true);
     try {
-      await ensurePolygonAmoy();     // Check in polygon or not
+      await ensurePolygonAmoy();     
 
       const account = await connectWallet();
       const admin = process.env.NEXT_PUBLIC_ADMIN_WALLET || "0x19ed09c2eCa8bf28b5ad762ED574864B48E39ca6";
@@ -79,7 +79,7 @@ export default function JobPostForm({ user, onPosted }) {
         ],
       });
 
-      // Call backend to verify and save job post
+   
       const resp = await fetch("/api/jobs/pay-and-post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

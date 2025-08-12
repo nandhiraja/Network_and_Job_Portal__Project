@@ -15,6 +15,9 @@ router.get("/", async (req, res) => {
   }
 })
 
+
+// ========================= POST ROUTES FOR CREATING =========================
+
 // Create new post
 router.post("/", async (req, res) => {
   try {
@@ -50,6 +53,9 @@ router.post("/", async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message })
   }
 })
+
+
+// ========================== POST ROUTES FOR LIKING AND COMMENTING =========================
 
 // Like a post
 router.post("/:postId/like", async (req, res) => {
@@ -112,5 +118,10 @@ router.post("/:postId/comment", async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message })
   }
 })
+
+
+
+
+
 
 module.exports = router

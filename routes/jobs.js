@@ -1,8 +1,7 @@
 const express = require("express")
 const Job = require("../models/Job")
 const User = require("../models/User")
-// const { verifyTx } = require("../utils/blockchainVerifier");
-// const simpleBlockchain = require("./utils/simpleBlockchain")
+
 const router = express.Router()
 
 // Get all jobs (unchanged)
@@ -15,6 +14,12 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message })
   }
 })
+
+
+
+// ========================= JOBS ROUTES FOR CREATING =========================
+
+
 
 // Create new job 
 router.post("/", async (req, res) => {
@@ -57,6 +62,11 @@ router.post("/", async (req, res) => {
   }
 })
 
+// ========================= JOBS ROUTES FOR RECOMMENDATIONS =========================
+
+
+
+
 
 // Get recommended jobs for user (unchanged)
 router.get("/recommended/:userId", async (req, res) => {
@@ -92,7 +102,11 @@ router.get("/recommended/:userId", async (req, res) => {
   }
 })
 
-// Apply for job (unchanged)
+
+
+// ========================= JOBS ROUTES FOR APPLYING=========================
+
+
 router.post("/:jobId/apply", async (req, res) => {
   try {
     const { userId } = req.body
@@ -120,7 +134,7 @@ router.post("/:jobId/apply", async (req, res) => {
       return res.status(400).json({ message: "Already applied for this job" })
     }
 
-    // Add applicant
+    
     const updatedJob = await Job.findByIdAndUpdate(
       jobId,
       {
