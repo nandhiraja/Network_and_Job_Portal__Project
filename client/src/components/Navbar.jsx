@@ -5,7 +5,7 @@ const Navbar = ({ user, onLogout }) => {
     <nav className="navbar">
       <div className="navbar-content">
         <div className="navbar-brand">
-          <h1>🚀 Job Portal</h1>
+          <h1> Network Job Portal</h1>
         </div>
 
         <div className="navbar-user">
