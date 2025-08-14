@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { BsSend } from "react-icons/bs";
 import { BsPenFill } from "react-icons/bs";
+
 const PostForm = ({ user, onNewPost }) => {
   const [content, setContent] = useState("")
   const [loading, setLoading] = useState(false)

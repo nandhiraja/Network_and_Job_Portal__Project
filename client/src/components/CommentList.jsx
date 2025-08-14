@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { BiSolidSend } from "react-icons/bi";
 const CommentList = ({ comments, onAddComment, currentUser }) => {
+  
   const [newComment, setNewComment] = useState("")
   const [showComments, setShowComments] = useState(false)
   const [loading, setLoading] = useState(false)

@@ -52,7 +52,6 @@ const Dashboard = ({ user, onLogout }) => {
             <FaCircleUser/> 
            </button>
 
-           
         </div>
 
         <div className="tab-content">{renderActiveTab()}</div>

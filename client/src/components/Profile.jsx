@@ -69,6 +69,7 @@ const Profile = ({ user }) => {
   };
 
   // Upload resume file and generate summary via backend AI
+  
   const handleResumeUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
