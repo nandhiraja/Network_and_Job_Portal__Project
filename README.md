@@ -53,7 +53,7 @@
  <h3>Click Below</h3>
 
 <h3>
- <p></p></P><a href="https://www.network-job-portal.netlify.app/"> Network_and_Job_portal </a></p>   
+ <p></p></P><a href="https://network-job-portal.netlify.app/"> Network_and_Job_portal </a></p>   
 </h3>
 
 ---
