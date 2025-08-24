@@ -17,7 +17,6 @@
       <td>AI-Powered Features</td>
     </tr>
   </table>
-
   <br/>
   
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/>
@@ -45,6 +44,17 @@
 - **Blockchain Integration**: MetaMask wallet integration with secure job posting
 - **AI-Powered Features**: Resume parsing and intelligent job recommendations
 - **Scalable Architecture**: Enterprise-grade deployment on cloud platforms
+
+---
+
+<h2>
+  LINK : 
+  </h2>
+ <h3>Click Below</h3>
+
+<h3>
+ <p></p></P><a href="https://www.network-job-portal.netlify.app/"> Network_and_Job_portal </a></p>   
+</h3>
 
 ---
 
